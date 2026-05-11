@@ -110,12 +110,7 @@ FROM Payment
 ORDER BY payment_date DESC LIMIT 3;
 
 -- 10
-SELECT product_id FROM Product ORDER BY product_id LIMIT 3 OFFSET 2;
-
-SELECT product_id, product_name 
-FROM Product 
-GROUP BY product_id , product_name 
-HAVING product_id <> (SELECT product_id FROM Product ORDER BY product_id LIMIT 2);
+SELECT product_id, product_name FROM Product ORDER BY product_id LIMIT 3 OFFSET 2;
 
 -- P3
 -- 11
