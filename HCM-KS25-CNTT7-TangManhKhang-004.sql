@@ -130,10 +130,10 @@ SELECT p.product_id, p.product_name, o.order_id
 FROM Product p
 JOIN Orders o ON p.product_id = o.product_id;
 
--- 13 error
+-- 13
 SELECT p.category, SUM(o.total_amount) AS Total_Revenus
 FROM Product p 
-JOIN Orders o ON p.p.product_id = o.product_id
+JOIN Orders o ON p.product_id = o.product_id
 GROUP BY p.category
 HAVING SUM(o.total_amount);
 
