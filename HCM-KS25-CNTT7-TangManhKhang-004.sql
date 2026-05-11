@@ -70,11 +70,12 @@ VALUES
     (5, 5, '2025-06-05', 'Credit Carh', 'Paid');
     
 -- p2 
+-- 3 
 UPDATE Customer 
 SET customer_phone = '0999888777'
 WHERE customer_id = 'C001';
 
---
+-- 4 
 UPDATE Product
 SET stock_quantity = stock_quantity + 50
 WHERE product_id = 'P003';
@@ -83,37 +84,38 @@ UPDATE Product
 SET product_price = product_price * 1.1 
 WHERE product_id = 'P003';
 
--- 
+-- 5 
 DELETE FROM Payment 
 WHERE payment_status = 'Pending' 
 AND payment_method = 'Banking';
 
---
+-- 6
 SELECT product_id, product_name, product_price 
 FROM Product 
 WHERE category = 'Electronics' AND product_price > 10000;
 
--- 
+-- 7
 SELECT customer_name, customer_email, customer_address
 FROM Customer
 WHERE customer_name LIKE 'Nguyen%';
 
---
+-- 8
 SELECT order_id, order_date, total_amount
 FROM Orders
 ORDER BY total_amount DESC;
 
--- 
+-- 9
 SELECT payment_date 
 FROM Payment
 ORDER BY payment_date DESC LIMIT 3;
 
---
+-- 10 error
 SELECT product_id FROM Product ORDER BY product_id LIMIT 2;
 
 SELECT product_id, product_name 
 FROM Product 
-ORDER BY product_id NOT LIKE (SELECT product_id FROM Product ORDER BY product_id LIMIT 2);
+GROUP BY product_id , product_name 
+HAVING product_id <> (SELECT product_id FROM Product ORDER BY product_id LIMIT 2);
 
 -- P3
 -- 11
@@ -123,22 +125,24 @@ JOIN Orders o ON p.product_id = o.product_id
 JOIN Customer c ON o.customer_id = c.customer_id
 WHERE o.total_amount > 1000;
 
--- 12 e 
+-- 12 error
 SELECT p.product_id, p.product_name, o.order_id
 FROM Product p
 JOIN Orders o ON p.product_id = o.product_id;
 
--- 13
+-- 13 error
 SELECT p.category, SUM(o.total_amount) AS Total_Revenus
 FROM Product p 
 JOIN Orders o ON p.p.product_id = o.product_id
-GROUP BY SUM(o.total_amount);
+GROUP BY p.category
+HAVING SUM(o.total_amount);
+
 -- 14 
-SELECT COUNT(order_id) FROM Orders;
 SELECT c.customer_name, COUNT(o.order_id) AS Order_Count 
 FROM Customer c 
 JOIN Orders o ON c.customer_id = o.customer_id
-WHERE COUNT(o.order_id) > 2;
+GROUP BY c.customer_name
+HAVING COUNT(o.order_id) >= 2;
 
 -- 15
 SELECT o.order_id, c.customer_name, o.total_amount
