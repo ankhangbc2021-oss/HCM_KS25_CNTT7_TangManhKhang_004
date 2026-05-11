@@ -109,8 +109,8 @@ SELECT payment_date
 FROM Payment
 ORDER BY payment_date DESC LIMIT 3;
 
--- 10 error
-SELECT product_id FROM Product ORDER BY product_id LIMIT 2;
+-- 10
+SELECT product_id FROM Product ORDER BY product_id LIMIT 3 OFFSET 2;
 
 SELECT product_id, product_name 
 FROM Product 
@@ -126,9 +126,12 @@ JOIN Customer c ON o.customer_id = c.customer_id
 WHERE o.total_amount > 1000;
 
 -- 12 error
+SELECT product_id FROM Product;
 SELECT p.product_id, p.product_name, o.order_id
 FROM Product p
-JOIN Orders o ON p.product_id = o.product_id;
+JOIN Orders o ON p.product_id = o.product_id
+GROUP BY p.product_id, p.product_name, o.order_id
+HAVING o.product_id NOT LIKE (SELECT product_id FROM Product);
 
 -- 13
 SELECT p.category, SUM(o.total_amount) AS Total_Revenus
